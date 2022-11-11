@@ -4,6 +4,6 @@
     "target": "esnext",
     "module": "esnext",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   }
 }
