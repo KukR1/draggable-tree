@@ -1,4 +1,4 @@
-//@ts-nocheck
+////@ts-nocheck
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
@@ -117,78 +117,34 @@ const App: React.FC = () => {
     setGData(data);
   };
 
-  const renderNodeTree = (gData: DataNode[]) => {
-    return gData;
+  const renderTreeNode = (gData) => {
+    for (let p in gData) {
+      let value = gData[p];
+      let findIndex = 'Folder-1';
+      if (value === findIndex) {
+        return (
+          <div style={{ backgroundColor: 'cyan' }}>
+            <h3>{gData.title}</h3>
+          </div>
+        );
+      }
+    }
+
+    return <h3 style={{ fontWeight: 'bold' }}>{gData.title}</h3>;
   };
 
-  const customTreeNode: (BasicDataNode & DataNode)[] = gData.map((obj) => ({
-    checkable: true,
-    disabled: false,
-    disableCheckbox: false,
-    key: obj.key,
-    title: obj.title,
-  }));
-  customTreeNode.push({
-    disabled: true,
-    key: 'Personal',
-    title: 'Personal',
-    style: { backgroundColor: 'cyan' },
-  });
-  customTreeNode.push(
-    ...gData
-      .filter((obj) => obj.title.includes('0-1'))
-      .map((obj) => ({
-        key: obj.key,
-        title: obj.title,
-        style: { backgroundColor: 'yellow' },
-      }))
-  );
   console.log('New data: ', gData);
   return (
-    <>
-      <Tree
-        className="draggable-tree"
-        defaultExpandedKeys={expandedKeys}
-        draggable
-        blockNode
-        onDragEnter={onDragEnter}
-        onDrop={onDrop}
-        treeData={renderNodeTree(gData)}
-        // treeData={customTreeNode}
-      />
-
-      {/* {gData.length ? (
-        <Tree
-          defaultExpandedKeys={expandedKeys}
-          draggable
-          onDragEnter={onDragEnter}
-          onDrop={onDrop}
-        >
-          <TreeNode
-            disabled={true}
-            key="Team"
-            title="Team"
-            style={{ backgroundColor: 'yellow' }}
-          />
-          {gData.map((obj) => (
-            <TreeNode key={obj.key} title={obj.title} />
-          ))}
-          <TreeNode
-            disabled={true}
-            key="Personal"
-            title="Personal"
-            style={{ backgroundColor: 'yellow' }}
-          />
-          {gData
-            .filter((obj) => obj.title.includes('0-1'))
-            .map((obj) => (
-              <TreeNode key={obj.key} title={obj.title} />
-            ))}
-        </Tree>
-      ) : (
-        <></>
-      )} */}
-    </>
+    <Tree
+      className="draggable-tree"
+      defaultExpandedKeys={expandedKeys}
+      draggable
+      showLine
+      onDragEnter={onDragEnter}
+      onDrop={onDrop}
+      treeData={gData}
+      titleRender={renderTreeNode}
+    />
   );
 };
 
